@@ -1,0 +1,169 @@
+#Made by me, Leo.
+import turtle
+import random
+import math
+screen = turtle.Screen()
+t = turtle.Turtle()
+f = turtle.Turtle()
+s = turtle.Turtle()
+t.shape("turtle")
+screen.setup(1280, 720)
+screen.bgcolor("light blue")
+s.penup()
+t.penup()
+turtle.tracer(2)
+score = 0
+size = 1
+direction = ""
+s.hideturtle()
+t.color("white")
+def press_right():
+    global direction
+    direction = "right"
+
+
+def release_right():
+    global direction
+    direction = ""
+
+
+screen.onkeypress(press_right, "d")
+screen.onkeyrelease(release_right, "d")
+
+
+def press_left():
+    global direction
+    direction = "left"
+
+
+def release_left():
+    global direction
+    direction = ""
+
+
+screen.onkeypress(press_left, "a")
+screen.onkeyrelease(release_left, "a")
+
+
+def press_up():
+    global direction
+    direction = "up"
+
+
+def release_up():
+    global direction
+    direction = ""
+
+
+screen.onkeypress(press_up, "w")
+screen.onkeyrelease(release_up, "w")
+
+
+def press_down():
+    global direction
+    direction = "down"
+
+
+def release_down():
+    global direction
+    direction = ""
+
+
+screen.onkeypress(press_down, "s")
+screen.onkeyrelease(release_down, "s")
+#食物
+def food():
+    f.penup()
+    f.hideturtle()
+    f.goto(random.randint(-600, 600), random.randint(-340, 340))
+    f.color("orange")
+    f.pendown()
+    f.dot(20)
+    t.penup()
+
+def touching_food():
+    #每35毫秒刷新
+    screen.ontimer(touching_food, int(35))
+    if direction == "right":
+        if t.heading() == 0:
+            t.forward(10)
+        elif t.heading() > 180:
+            t.left(10)
+            t.forward(10)
+        elif t.heading() > 0:
+            t.right(10)
+            t.forward(10)
+    elif direction == "left":
+        #if t.heading() is 180, then move forward.
+        if t.heading() == 180:
+            t.forward(10)
+        #if t.heading() is less than 180, then turn left and move forward.
+        elif t.heading() < 180:
+            t.left(10)
+            t.forward(10)
+        #if t.heading() is greater than 180, then turn right and move forward.
+        elif t.heading() > 180:
+            t.right(10)
+            t.forward(10)
+    elif direction == "up":
+        #if t.heading() is bigger than 270, then turn left and move forward.
+        if t.heading() > 270:
+            t.left(10)
+            t.forward(10)
+        #if t.heading() is equal to 90, then move forward.
+        elif t.heading() == 90:
+            t.forward(10)
+        #if t.heading() is less than 90, then turn left and move forward.
+        elif t.heading() < 90:
+            t.left(10)
+            t.forward(10)
+        #if t.heading() is bigger than 90, then turn right and move forward.
+        elif t.heading() > 90:
+            t.right(10)
+            t.forward(10)
+    elif direction == "down":
+        # if t.heading() is equal than 270, then move forward.
+        if t.heading() == 270:
+            t.forward(10)
+        # if t.heading() is equal to 0, then turn right and move forward.
+        elif t.heading() == 0:
+            t.right(10)
+            t.forward(10)
+        # if t.heading() is bigger than 270, then turn right and move forward.
+        elif t.heading() > 270:
+            t.right(10)
+            t.forward(10)
+        # if t.heading() is between 90 and 270, then turn left and move forward.
+        elif t.heading() > 90 and t.heading() < 270:
+            t.left(10)
+            t.forward(10)
+        # if t.heading() is less than 90, then turn right and move forward.
+        elif t.heading() < 90:
+            t.right(10)
+            t.forward(10)
+        # if t.heading() is equal than 90, then turn left and move forward.
+        elif t.heading() == 90:
+            t.left(10)
+            t.forward(10)
+    #积分
+    global size
+    global score
+    if t.distance(f) < 10 + size * 10:
+        s.clear()
+        s.goto(-600, 300)
+        s.write("Score = " + str(score))
+        f.clear()
+        f.hideturtle()
+        f.penup()
+        f.goto(random.randint(-600, 600), random.randint(-340, 340))
+        f.color("orange")
+        f.pendown()
+        f.dot(20)
+        size += 0.05
+        score += 1
+        t.shapesize(size)
+
+food()
+touching_food()
+screen.listen()
+turtle.mainloop()
